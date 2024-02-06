@@ -1,11 +1,17 @@
 package sample.sample;
 
 public class CalculationRequest {
-	private long num1;
-	private long num2;
-	private String operator;
+	private final long num1;
+	private final long num2;
+	private final String operator;
 
 	public CalculationRequest(String[] parts) {
+		if (parts.length != 3) {
+			throw new BadRequestException();
+		}
+		if (parts[1].length() != 1) {
+			throw new InvalidOperationException();
+		}
 		this.num1 = Long.parseLong(parts[0]);
 		this.num2 = Long.parseLong(parts[2]);
 		this.operator = parts[1];

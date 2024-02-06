@@ -21,9 +21,9 @@ class CalculationRequestReaderTest {
 		System.setIn(new ByteArrayInputStream("2 + 3".getBytes()));
 		CalculationRequest result = reader.read();
 
-		assertThat("2").isEqualTo(result.getNum1());
+		assertThat(2).isEqualTo(result.getNum1());
 		assertThat("+").isEqualTo(result.getOperator());
-		assertThat("3").isEqualTo(result.getNum2());
+		assertThat(3).isEqualTo(result.getNum2());
 
 	}
 }

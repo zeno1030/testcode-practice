@@ -17,5 +17,4 @@ class CalculationRequestTest {
 		assertEquals("+", request.getOperator());
 		assertEquals(3, request.getNum2());
 	}
-
 }

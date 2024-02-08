@@ -1,0 +1,2 @@
+insert into `users` (`id`, `email`, `nickname`, `address`, `certification_code`, `status`, `last_login_at`)
+values ('1', 'zeno1030@naver.com', 'zeno', 'Seoul', 'aaaaaaaaaaaaaaaaaa-aaaaaaaa-a-aaaaaaaaaa-aa-aaaa', 'ACTIVE', 0);

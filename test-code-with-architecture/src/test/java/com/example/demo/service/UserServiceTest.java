@@ -43,5 +43,20 @@ class UserServiceTest {
 		}).isInstanceOf(ResourceNotFoundException.class);
 
 	}
+	@Test
+	void getById는_ACTIVE_상태인_유저를_찾아올_수있다() {
+		UserEntity result = userService.getById(1);
+
+		assertThat(result.getNickname()).isEqualTo("zeno1030");
+
+	}
+
+	@Test
+	void getById는_PENDING_상태인_유저를_찾아올_수없다() {
+		assertThatThrownBy(() -> {
+			UserEntity result = userService.getById(2);
+		}).isInstanceOf(ResourceNotFoundException.class);
+
+	}
 
 }

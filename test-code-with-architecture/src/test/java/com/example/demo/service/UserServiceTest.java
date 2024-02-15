@@ -16,11 +16,12 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlGroup;
 
 
-import com.example.demo.exception.ResourceNotFoundException;
-import com.example.demo.model.UserStatus;
-import com.example.demo.model.dto.UserCreateDto;
-import com.example.demo.model.dto.UserUpdateDto;
-import com.example.demo.repository.UserEntity;
+import com.example.demo.common.domain.exception.ResourceNotFoundException;
+import com.example.demo.user.domain.UserStatus;
+import com.example.demo.user.domain.UserCreate;
+import com.example.demo.user.domain.UserUpdate;
+import com.example.demo.user.infrastructure.UserEntity;
+import com.example.demo.post.infrastructure.service.UserService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -76,7 +77,7 @@ class UserServiceTest {
 	@Test
 	void create는_email을_사용해서_계정을_만들_수있다() {
 		//given
-		UserCreateDto userCreateDto = UserCreateDto.builder()
+		UserCreate userCreate = UserCreate.builder()
 			.email("zeno1030@naver.com")
 			.address("Gyeongi")
 			.nickname("wl3648ghks")
@@ -85,7 +86,7 @@ class UserServiceTest {
 		BDDMockito.doNothing().when(javaMailSender).send(any(SimpleMailMessage.class));
 
 		//when
-		UserEntity result = userService.create(userCreateDto);
+		UserEntity result = userService.create(userCreate);
 
 		assertThat(result.getId()).isNotNull();
 		assertThat(result.getStatus()).isEqualTo(UserStatus.PENDING);
@@ -93,12 +94,12 @@ class UserServiceTest {
 	@Test
 	void userUpdateDto를_이요하여_유저를_수정할_수_있다() {
 		//given
-		UserUpdateDto userUpdateDto = UserUpdateDto.builder()
+		UserUpdate userUpdate = UserUpdate.builder()
 			.address("seoul")
 			.nickname("wkrwjs")
 			.build();
 		//when
-		UserEntity result = userService.update(1, userUpdateDto);
+		UserEntity result = userService.update(1, userUpdate);
 
 		assertThat(result.getAddress()).isEqualTo("seoul");
 		assertThat(result.getNickname()).isEqualTo("wkrwjs");

@@ -11,7 +11,9 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.example.demo.model.UserStatus;
+import com.example.demo.user.domain.UserStatus;
+import com.example.demo.user.infrastructure.UserEntity;
+import com.example.demo.user.infrastructure.UserRepository;
 
 @DataJpaTest(showSql = true)
 @TestPropertySource("classpath:test-application.properties")

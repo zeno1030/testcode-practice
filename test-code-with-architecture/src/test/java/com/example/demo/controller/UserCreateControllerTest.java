@@ -5,7 +5,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.mockito.ArgumentMatchers.any;
 import org.junit.jupiter.api.Test;
 import org.mockito.BDDMockito;
-import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -18,7 +17,7 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlGroup;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.example.demo.model.dto.UserCreateDto;
+import com.example.demo.user.domain.UserCreate;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SpringBootTest
@@ -36,7 +35,7 @@ class UserCreateControllerTest {
 
 	@Test
 	void 사용자를_만들_수있다() throws Exception {
-		UserCreateDto userCreateDto = UserCreateDto.builder()
+		UserCreate userCreate = UserCreate.builder()
 			.nickname("지환")
 			.address("london")
 			.email("zeno1030@naver.asd")
@@ -47,7 +46,7 @@ class UserCreateControllerTest {
 				post("/api/users")
 					.header("EMAIL", "zeno1030@naver.com")
 					.contentType(MediaType.APPLICATION_JSON)
-					.content(objectMapper.writeValueAsString(userCreateDto))
+					.content(objectMapper.writeValueAsString(userCreate))
 			)
 			.andExpect(status().isCreated())
 			.andExpect(jsonPath("$.id").value(1))

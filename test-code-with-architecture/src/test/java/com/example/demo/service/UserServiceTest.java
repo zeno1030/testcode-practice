@@ -1,7 +1,7 @@
 package com.example.demo.service;
 
-
 import static org.assertj.core.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.*;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.BDDMockito;
@@ -9,19 +9,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.mail.SimpleMailMessage;
-import static org.mockito.ArgumentMatchers.any;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlGroup;
 
-
 import com.example.demo.common.domain.exception.ResourceNotFoundException;
-import com.example.demo.user.domain.UserStatus;
 import com.example.demo.user.domain.UserCreate;
+import com.example.demo.user.domain.UserStatus;
 import com.example.demo.user.domain.UserUpdate;
 import com.example.demo.user.infrastructure.UserEntity;
-import com.example.demo.post.infrastructure.service.UserService;
+import com.example.demo.user.service.UserService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -48,6 +46,7 @@ class UserServiceTest {
 		//then
 		assertThat(result.getId()).isNotNull();
 	}
+
 	@Test
 	void getByEmail은_PENDING_상태인_유저를_찾아올_수없다() {
 		//given
@@ -58,6 +57,7 @@ class UserServiceTest {
 		}).isInstanceOf(ResourceNotFoundException.class);
 
 	}
+
 	@Test
 	void getById는_ACTIVE_상태인_유저를_찾아올_수있다() {
 		UserEntity result = userService.getById(1);
@@ -91,6 +91,7 @@ class UserServiceTest {
 		assertThat(result.getId()).isNotNull();
 		assertThat(result.getStatus()).isEqualTo(UserStatus.PENDING);
 	}
+
 	@Test
 	void userUpdateDto를_이요하여_유저를_수정할_수_있다() {
 		//given
@@ -104,6 +105,7 @@ class UserServiceTest {
 		assertThat(result.getAddress()).isEqualTo("seoul");
 		assertThat(result.getNickname()).isEqualTo("wkrwjs");
 	}
+
 	@Test
 	void user를_로그인_시키면_마지막_로그인_시간이_변경된다() {
 		//when

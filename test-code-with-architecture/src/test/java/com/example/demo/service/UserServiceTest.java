@@ -18,7 +18,7 @@ import com.example.demo.common.domain.exception.ResourceNotFoundException;
 import com.example.demo.user.domain.UserCreate;
 import com.example.demo.user.domain.UserStatus;
 import com.example.demo.user.domain.UserUpdate;
-import com.example.demo.user.infrastructure.UserEntity;
+import com.example.demo.user.infrastructure.User;
 import com.example.demo.user.service.UserService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -42,7 +42,7 @@ class UserServiceTest {
 		String email = "zeno1030@naver.com";
 
 		//when
-		UserEntity result = userService.getByEmail(email);
+		com.example.demo.user.domain.User result = userService.getByEmail(email);
 		//then
 		assertThat(result.getId()).isNotNull();
 	}
@@ -53,14 +53,14 @@ class UserServiceTest {
 		String email = "wl3648ghks@gmail.com";
 
 		assertThatThrownBy(() -> {
-			UserEntity result = userService.getByEmail(email);
+			User result = userService.getByEmail(email);
 		}).isInstanceOf(ResourceNotFoundException.class);
 
 	}
 
 	@Test
 	void getById는_ACTIVE_상태인_유저를_찾아올_수있다() {
-		UserEntity result = userService.getById(1);
+		User result = userService.getById(1);
 
 		assertThat(result.getNickname()).isEqualTo("zeno1030");
 
@@ -69,7 +69,7 @@ class UserServiceTest {
 	@Test
 	void getById는_PENDING_상태인_유저를_찾아올_수없다() {
 		assertThatThrownBy(() -> {
-			UserEntity result = userService.getById(2);
+			User result = userService.getById(2);
 		}).isInstanceOf(ResourceNotFoundException.class);
 
 	}
@@ -86,7 +86,7 @@ class UserServiceTest {
 		BDDMockito.doNothing().when(javaMailSender).send(any(SimpleMailMessage.class));
 
 		//when
-		UserEntity result = userService.create(userCreate);
+		User result = userService.create(userCreate);
 
 		assertThat(result.getId()).isNotNull();
 		assertThat(result.getStatus()).isEqualTo(UserStatus.PENDING);
@@ -100,7 +100,7 @@ class UserServiceTest {
 			.nickname("wkrwjs")
 			.build();
 		//when
-		UserEntity result = userService.update(1, userUpdate);
+		User result = userService.update(1, userUpdate);
 
 		assertThat(result.getAddress()).isEqualTo("seoul");
 		assertThat(result.getNickname()).isEqualTo("wkrwjs");
@@ -111,16 +111,16 @@ class UserServiceTest {
 		//when
 		userService.login(1);
 
-		UserEntity userEntity = userService.getById(1);
-		log.info("getLastLoginAt = {}", userEntity.getLastLoginAt());
-		assertThat(userEntity.getLastLoginAt()).isGreaterThan(0L);
+		User user = userService.getById(1);
+		log.info("getLastLoginAt = {}", user.getLastLoginAt());
+		assertThat(user.getLastLoginAt()).isGreaterThan(0L);
 	}
 
 	@Test
 	void Pending_상태의_사용자는_인증_코드로_ACTIVE_시킬_수있다() {
 		userService.verifyEmail(2, "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa");
 
-		UserEntity userEntity = userService.getById(2);
-		assertThat(userEntity.getStatus()).isEqualTo(UserStatus.ACTIVE);
+		User user = userService.getById(2);
+		assertThat(user.getStatus()).isEqualTo(UserStatus.ACTIVE);
 	}
 }

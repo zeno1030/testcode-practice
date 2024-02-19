@@ -16,7 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.example.demo.user.domain.UserStatus;
 import com.example.demo.user.domain.UserUpdate;
-import com.example.demo.user.infrastructure.UserEntity;
+import com.example.demo.user.infrastructure.User;
 import com.example.demo.user.infrastructure.UserJpaRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -57,8 +57,8 @@ class UserControllerTest {
 		mockMvc.perform(get("/api/users/2/verify")
 				.queryParam("certificationCode", "aaaaaaaa-aaaa-aaa-aaaa-aaaaaaaaaaaa"))
 			.andExpect(status().isFound());
-		UserEntity userEntity = userJpaRepository.findById(2L).get();
-		Assertions.assertThat(userEntity.getStatus()).isEqualTo(UserStatus.ACTIVE);
+		User user = userJpaRepository.findById(2L).get();
+		Assertions.assertThat(user.getStatus()).isEqualTo(UserStatus.ACTIVE);
 	}
 
 	@Test
@@ -66,8 +66,8 @@ class UserControllerTest {
 		mockMvc.perform(get("/api/users/2/verify")
 				.queryParam("certificationCode", "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"))
 			.andExpect(status().isFound());
-		UserEntity userEntity = userJpaRepository.findById(2L).get();
-		Assertions.assertThat(userEntity.getStatus()).isEqualTo(UserStatus.ACTIVE);
+		User user = userJpaRepository.findById(2L).get();
+		Assertions.assertThat(user.getStatus()).isEqualTo(UserStatus.ACTIVE);
 	}
 
 	@Test

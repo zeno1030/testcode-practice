@@ -53,14 +53,14 @@ class UserServiceTest {
 		String email = "wl3648ghks@gmail.com";
 
 		assertThatThrownBy(() -> {
-			User result = userService.getByEmail(email);
+			User result = User.fromModel(userService.getByEmail(email));
 		}).isInstanceOf(ResourceNotFoundException.class);
 
 	}
 
 	@Test
 	void getById는_ACTIVE_상태인_유저를_찾아올_수있다() {
-		User result = userService.getById(1);
+		User result = User.fromModel(userService.getById(1));
 
 		assertThat(result.getNickname()).isEqualTo("zeno1030");
 
@@ -69,7 +69,7 @@ class UserServiceTest {
 	@Test
 	void getById는_PENDING_상태인_유저를_찾아올_수없다() {
 		assertThatThrownBy(() -> {
-			User result = userService.getById(2);
+			User result = User.fromModel(userService.getById(2));
 		}).isInstanceOf(ResourceNotFoundException.class);
 
 	}
@@ -86,7 +86,7 @@ class UserServiceTest {
 		BDDMockito.doNothing().when(javaMailSender).send(any(SimpleMailMessage.class));
 
 		//when
-		User result = userService.create(userCreate);
+		User result = User.fromModel(userService.create(userCreate));
 
 		assertThat(result.getId()).isNotNull();
 		assertThat(result.getStatus()).isEqualTo(UserStatus.PENDING);
@@ -100,7 +100,7 @@ class UserServiceTest {
 			.nickname("wkrwjs")
 			.build();
 		//when
-		User result = userService.update(1, userUpdate);
+		User result = User.fromModel(userService.update(1, userUpdate));
 
 		assertThat(result.getAddress()).isEqualTo("seoul");
 		assertThat(result.getNickname()).isEqualTo("wkrwjs");
@@ -111,7 +111,7 @@ class UserServiceTest {
 		//when
 		userService.login(1);
 
-		User user = userService.getById(1);
+		User user = User.fromModel(userService.getById(1));
 		log.info("getLastLoginAt = {}", user.getLastLoginAt());
 		assertThat(user.getLastLoginAt()).isGreaterThan(0L);
 	}
@@ -120,7 +120,7 @@ class UserServiceTest {
 	void Pending_상태의_사용자는_인증_코드로_ACTIVE_시킬_수있다() {
 		userService.verifyEmail(2, "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa");
 
-		User user = userService.getById(2);
+		User user = User.fromModel(userService.getById(2));
 		assertThat(user.getStatus()).isEqualTo(UserStatus.ACTIVE);
 	}
 }

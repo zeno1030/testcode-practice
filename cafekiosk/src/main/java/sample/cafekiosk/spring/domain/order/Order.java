@@ -2,6 +2,7 @@ package sample.cafekiosk.spring.domain.order;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -17,6 +18,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import sample.cafekiosk.spring.domain.BaseEntity;
 import sample.cafekiosk.spring.domain.orderproduct.OrderProduct;
+import sample.cafekiosk.spring.domain.product.Product;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -36,4 +38,21 @@ public class Order extends BaseEntity {
 
 	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
 	private List<OrderProduct> orderProducts;
+
+	public Order(List<Product> products, LocalDateTime registeredDatetime) {
+		this.orderStatus = OrderStatus.INIT;
+		this.totalPrice = calculateTotalPrice(products);
+		this.registeredDatetime = registeredDatetime;
+		this.orderProducts = products.stream().map(product -> new OrderProduct(this, product))
+			.collect(Collectors.toList());
+
+	}
+
+	private int calculateTotalPrice(List<Product> products) {
+		return products.stream().mapToInt(Product::getPrice).sum();
+	}
+
+	public static Order create(List<Product> products, LocalDateTime registerDateTime) {
+		return new Order(products, registerDateTime);
+	}
 }

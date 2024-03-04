@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import sample.cafekiosk.unit.beverage.Americano;
 import sample.cafekiosk.unit.beverage.Latte;
-import sample.cafekiosk.unit.order.Order;
+import sample.cafekiosk.unit.order.OrderUnit;
 
 class CafeKioskTest {
 
@@ -81,10 +81,10 @@ class CafeKioskTest {
 		Americano americano = new Americano();
 		cafeKiosk.add(americano);
 
-		Order order = cafeKiosk.createOrder();
+		OrderUnit orderUnit = cafeKiosk.createOrder();
 
-		assertThat(order.getBeverages()).hasSize(1);
-		assertThat(order.getBeverages().get(0).getName()).isEqualTo("아메리카노");
+		assertThat(orderUnit.getBeverages()).hasSize(1);
+		assertThat(orderUnit.getBeverages().get(0).getName()).isEqualTo("아메리카노");
 	}
 	@Test
 	void createOrderTimeTest() {
@@ -92,10 +92,10 @@ class CafeKioskTest {
 		Americano americano = new Americano();
 		cafeKiosk.add(americano);
 
-		Order order = cafeKiosk.createOrder(LocalDateTime.of(2023, 1, 17, 10, 0));
+		OrderUnit orderUnit = cafeKiosk.createOrder(LocalDateTime.of(2023, 1, 17, 10, 0));
 
-		assertThat(order.getBeverages()).hasSize(1);
-		assertThat(order.getBeverages().get(0).getName()).isEqualTo("아메리카노");
+		assertThat(orderUnit.getBeverages()).hasSize(1);
+		assertThat(orderUnit.getBeverages().get(0).getName()).isEqualTo("아메리카노");
 	}
 	@Test
 	void createOrderTimeExceptionTest() {

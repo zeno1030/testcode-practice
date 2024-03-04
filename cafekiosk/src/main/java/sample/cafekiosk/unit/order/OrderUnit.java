@@ -8,7 +8,8 @@ import lombok.RequiredArgsConstructor;
 import sample.cafekiosk.unit.beverage.Beverage;
 @Getter
 @RequiredArgsConstructor
-public class Order {
+public class OrderUnit {
 	private final LocalDateTime orderDateTime;
 	private final List<Beverage> beverages;
+
 }

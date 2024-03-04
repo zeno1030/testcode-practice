@@ -31,7 +31,7 @@ public class OrderProduct extends BaseEntity {
 
 
 	@Builder
-	private OrderProduct(Order order, Product product) {
+	public OrderProduct(Order order, Product product) {
 		this.order = order;
 		this.product = product;
 	}

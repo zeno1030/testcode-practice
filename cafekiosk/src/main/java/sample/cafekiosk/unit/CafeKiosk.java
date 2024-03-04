@@ -7,7 +7,7 @@ import java.util.List;
 
 import lombok.Getter;
 import sample.cafekiosk.unit.beverage.Beverage;
-import sample.cafekiosk.unit.order.Order;
+import sample.cafekiosk.unit.order.OrderUnit;
 @Getter
 public class CafeKiosk {
 	private static final LocalTime SHOP_OPEN_TIME = LocalTime.of(10, 0);
@@ -44,21 +44,21 @@ public class CafeKiosk {
 		return totalPrice;
 	}
 
-	public Order createOrder() {
+	public OrderUnit createOrder() {
 		LocalDateTime currentDateTime = LocalDateTime.now();
 		LocalTime now = currentDateTime.toLocalTime();
 		if (now.isBefore(SHOP_OPEN_TIME) || now.isAfter(SHOP_CLOSE_TIME)) {
 			throw new IllegalArgumentException("가게 문이 닫았습니다");
 		} else {
-			return new Order(currentDateTime, beverages);
+			return new OrderUnit(currentDateTime, beverages);
 		}
 	}
-	public Order createOrder(LocalDateTime currentDateTime) {
+	public OrderUnit createOrder(LocalDateTime currentDateTime) {
 		LocalTime now = currentDateTime.toLocalTime();
 		if (now.isBefore(SHOP_OPEN_TIME) || now.isAfter(SHOP_CLOSE_TIME)) {
 			throw new IllegalArgumentException("가게 문이 닫았습니다");
 		} else {
-			return new Order(currentDateTime, beverages);
+			return new OrderUnit(currentDateTime, beverages);
 		}
 	}
 }

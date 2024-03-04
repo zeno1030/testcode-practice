@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 import sample.cafekiosk.unit.beverage.Americano;
 import sample.cafekiosk.unit.beverage.Latte;
-import sample.cafekiosk.unit.order.Order;
+import sample.cafekiosk.unit.order.OrderUnit;
 
 public class CafeKioskRunner {
 
@@ -19,6 +19,6 @@ public class CafeKioskRunner {
 		int price = cafeKiosk.calculateTotalPrice();
 		System.out.println("price = " + price);
 
-		Order order = cafeKiosk.createOrder(LocalDateTime.now());
+		OrderUnit orderUnit = cafeKiosk.createOrder(LocalDateTime.now());
 	}
 }
